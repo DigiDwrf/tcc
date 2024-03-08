@@ -1781,6 +1781,7 @@ static void tcc_output_binary(TCCState *s1, FILE *f, const int *section_order)
     fprintf(f, ".include \"hdr.asm\"\n");
     fprintf(f, ".accu 16\n.index 16\n");
     fprintf(f, ".16bit\n");
+    fprintf(f, ".BASE $C0\n");
 
     /* local variable size constants; used to be generated as part of the
        function epilog, but WLA DX barfed once in a while about missing
@@ -1877,6 +1878,7 @@ static void tcc_output_binary(TCCState *s1, FILE *f, const int *section_order)
             /* k == 0: output .ramsection; k == 1: output .section */
             for (k = startk; k < endk; k++) {
                 if (k == 0) { /* .ramsection */
+                    fprintf(f, ".BASE $00\n");
                     fprintf(f,
                             ".RAMSECTION \"ram%s%s\" APPENDTO \"globram.data\"\n",
                             unique_token,
